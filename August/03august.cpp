@@ -1,3 +1,10 @@
+//{ Driver Code Starts
+// Initial Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
 
 class Solution {
 public:
@@ -41,3 +48,23 @@ public:
         return (out == INT_MAX) ? -1 : out;
     }
 };
+
+
+
+
+//{ Driver Code Starts.
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int N, M, x, y;
+        cin >> N >> M;
+        vector<vector<int>> v(N, vector<int>(M));
+        for (int i = 0; i < N; i++)
+            for (int j = 0; j < M; j++) cin >> v[i][j];
+        cin >> x >> y;
+        Solution ob;
+        cout << ob.shortestDistance(N, M, v, x, y) << "\n";
+    }
+}
+// } Driver Code Ends
