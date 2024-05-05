@@ -10,7 +10,7 @@ To delete a node in a linked list, we don't have direct access to the previous n
 Input : head = [4,5,1,9], node = 5
 Output : [4,1,9]
 
-Explanation: You are given the second node with value 5, the linked list should become 4 -> 1 -> 9 after calling your function.
+Explanation: You are given the second node with value 5, the linked list should become 4 -> 1 -> 9 after calling your function. 
 
 Here's how the approach works:
 1. We assign the pointer `temp` to the node after the node to be deleted.
