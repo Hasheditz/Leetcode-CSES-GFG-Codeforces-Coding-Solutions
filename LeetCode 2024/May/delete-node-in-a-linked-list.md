@@ -1,6 +1,6 @@
-# LeetCode Daily Question
+# Delete Node in a Linked List
 **Today - 5 May 2024**  
-**Question:** [Delete Node in a Linked List](Question Link)
+**Question:** (Delete Node in a Linked List)[https://leetcode.com/problems/delete-node-in-a-linked-list]
 
 ## My Approach
 To delete a node in a linked list, we don't have direct access to the previous node. However, we can simulate a deletion by copying the value of the next node into the current node to be deleted and then bypassing the next node.
