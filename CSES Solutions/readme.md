@@ -1,4 +1,4 @@
-# Welcome to the CSES Problem Set Solutions Repository!
+# CSES Problem Solutions
 
 ![CSES Logo](https://cses.fi/logo.png)
 
