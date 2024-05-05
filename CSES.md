@@ -1,4 +1,4 @@
-# CSES Introduction
+### CSES Introduction
 
 ![CSES Logo](https://cses.fi/logo.png)
 
