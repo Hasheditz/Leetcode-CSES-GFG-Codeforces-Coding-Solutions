@@ -12,10 +12,6 @@ Output : [4,1,9]
 
 Explanation: You are given the second node with value 5, the linked list should become 4 -> 1 -> 9 after calling your function.
 
-<div style="text-align: center;">
-    <img src="./image.png" alt="Example" width="250" height="150">
-</div>
-
 Here's how the approach works:
 1. We assign the pointer `temp` to the node after the node to be deleted.
 2. We copy the value of the next node into the current node to be deleted.
