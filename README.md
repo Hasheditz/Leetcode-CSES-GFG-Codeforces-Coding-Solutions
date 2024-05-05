@@ -7,14 +7,14 @@
 ## My Approach
 To delete a node in a linked list, we don't have direct access to the previous node. However, we can simulate a deletion by copying the value of the next node into the current node to be deleted and then bypassing the next node.
 
-<div style="text-align: center;">
-    <img src="image.png" alt="Example" width="200" height="100">
-</div>
-
 Input : head = [4,5,1,9], node = 5
 Output : [4,1,9]
 
 Explanation: You are given the second node with value 5, the linked list should become 4 -> 1 -> 9 after calling your function.
+
+<div style="text-align: center;">
+    <img src="image.png" alt="Example" width="250" height="150">
+</div>
 
 Here's how the approach works:
 1. We assign the pointer `temp` to the node after the node to be deleted.
@@ -41,7 +41,7 @@ public:
 ## Contribution and Support
 I always encourage contributors to participate in the discussion forum for this repository.
 
-If you have a better solution or any queries/discussions related to the Problem of the Day solution, please visit our discussion section. We welcome your input and aim to foster a collaborative learning environment.
+If you have a better solution or any queries/discussions related to the `Daily Solution`, please visit our discussion section. We welcome your input and aim to foster a collaborative learning environment.
 
 If you find this solution helpful, consider supporting us by giving a ⭐ star to the[repository](https://github.com/Hasheditz/leetcode-solutions).
 
