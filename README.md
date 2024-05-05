@@ -13,7 +13,7 @@ Output : [4,1,9]
 Explanation: You are given the second node with value 5, the linked list should become 4 -> 1 -> 9 after calling your function.
 
 <div style="text-align: center;">
-    <img src="image.png" alt="Example" width="250" height="150">
+    <img src="./image.png" alt="Example" width="250" height="150">
 </div>
 
 Here's how the approach works:
