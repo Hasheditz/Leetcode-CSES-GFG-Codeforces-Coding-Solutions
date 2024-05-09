@@ -1,93 +1,64 @@
 ### Today's Question
 
-# Relative Ranks
+# Maximizing Happiness of Selected Children
 
-![Problem Difficulty](https://img.shields.io/badge/Problem-Difficult-red)
+![Problem Difficulty](https://img.shields.io/badge/Problem-Medium-yellow)
 ![Status](https://img.shields.io/badge/Status-Solved-brightgreen)
+
+**Date**: 9 May 2024  
+**Question**: [Maximize Happiness of Selected Children](https://leetcode.com/problems/maximize-happiness-of-selected-children)
 
 ## Problem Description
 
-You are given an integer array `score` of size `n`, where `score[i]` is the score of the `i`th athlete in a competition. All the scores are guaranteed to be unique.
+You've got a bunch of kids lined up with their happiness levels stored in an array called `happiness`. You also have a number `k` telling you how many kids you can pick.
 
-The athletes are placed based on their scores, where the 1st place athlete has the highest score, the 2nd place athlete has the 2nd highest score, and so on. The placement of each athlete determines their rank:
+Every time you pick a kid, the remaining unpicked kids lose a point of happiness, but their happiness can't drop below zero.
 
-- The 1st place athlete's rank is "Gold Medal".
-- The 2nd place athlete's rank is "Silver Medal".
-- The 3rd place athlete's rank is "Bronze Medal".
-- For the 4th place to the `n`th place athlete, their rank is their placement number (i.e., the `x`th place athlete's rank is "`x`").
-
-Return an array `answer` of size `n` where `answer[i]` is the rank of the `i`th athlete.
-
-## Example
-
-Input: score = [10, 3, 8, 9, 4]
-Output: ["Gold Medal", "5", "Bronze Medal", "Silver Medal", "4"]
-Explanation: The placements are [1st, 5th, 3rd, 2nd, 4th].
+Your job? Pick the happiest kids you can to maximize the total happiness.
 
 ## Approach
 
-To solve this problem, we can use a priority queue to sort the athletes based on their scores. We will store both the score and the index of the athlete in the priority queue. Then, we will iterate over the priority queue to assign ranks to each athlete based on their position in the sorted order.
+Here's the plan:
 
-Here's how the approach works:
-
-1. We create a priority queue (`pq`) of pairs, where the first element of the pair is the score of the athlete and the second element is the index of the athlete.
-2. We iterate over the scores and insert each score-index pair into the priority queue.
-3. We initialize a rank variable to keep track of the current rank and set it to 1.
-4. We iterate over the priority queue until it's empty:
-   - Pop the top element from the priority queue.
-   - Assign the appropriate rank to the athlete based on their position in the sorted order:
-     - If the rank is 1, assign "Gold Medal".
-     - If the rank is 2, assign "Silver Medal".
-     - If the rank is 3, assign "Bronze Medal".
-     - Otherwise, assign the rank as a string.
-   - Increment the rank.
-5. Return the array containing the ranks of the athletes.
+1. First, sort the kids based on their happiness, from happiest to least happy.
+2. Then, start picking kids one by one. If you still have turns left (`k > 0`), pick the happiest kid, but don't forget to update the total happiness and track how many times you've picked a kid.
+3. Keep doing this until you've used up all your turns (`k`).
 
 ## Complexity Analysis
 
-- Time Complexity: O(n log n), where n is the number of athletes.
-- Space Complexity: O(n).
+- Time Complexity: O(n log n), where n is the number of kids. The sorting part takes most of the time.
+- Space Complexity: O(1), because we're not using any extra space that grows with the input size.
 
 ## Code
 
 ```cpp
 class Solution {
 public:
-    vector<string> findRelativeRanks(vector<int>& score) {
-        int n = score.size();
-        priority_queue<pair<int, int>> pq; 
-
-        for (int i = 0; i < n; ++i) {
-            pq.emplace(score[i], i);
+    long long maximumHappinessSum(vector<int>& hap, int k) {
+        
+        sort(hap.begin(), hap.end(), greater<int>());
+        int n = hap.size();
+        
+        int neg = 0;
+        long long out = 0;
+        for(int i = 0; i < n; ++i){
+            if(k > 0){
+                out += max(0, hap[i] - neg);
+                if(hap[i] - neg >= 0){
+                    ++neg;
+                }
+                --k;
+            } 
         }
-
-        vector<string> res(n);
-
-        int rank = 1;
-        while (!pq.empty()) {
-            auto current = pq.top();
-            pq.pop();
-            int index = current.second;
-            if (rank == 1) {
-                res[index] = "Gold Medal";
-            } else if (rank == 2) {
-                res[index] = "Silver Medal";
-            } else if (rank == 3) {
-                res[index] = "Bronze Medal";
-            } else {
-                res[index] = to_string(rank);
-            }
-            ++rank;
-        }
-
-        return res;
+        return out;
     }
 };
+```
 
 ## Contribution and Support
 I always encourage contributors to participate in the discussion forum for this repository.
 
 If you have a better solution or any queries/discussions related to the Problem of the Day solution, please visit our discussion section. We welcome your input and aim to foster a collaborative learning environment.
 
-If you find this solution helpful, consider supporting us by giving a ⭐ star to the [repository](https://github.com/Hasheditz/leetcode-solutions).s).
+If you find this solution helpful, consider supporting us by giving a ⭐ star to the [repository](https://github.com/Hasheditz/leetcode-solutions).
 

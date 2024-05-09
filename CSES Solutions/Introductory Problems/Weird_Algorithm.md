@@ -1,4 +1,4 @@
-## Editorial: Weird Algorithm
+## Weird Algorithm
 
 ### Problem Statement
 You are given a positive integer \( n \). You need to perform the following operations until \( n \) becomes 1:
