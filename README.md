@@ -23,16 +23,16 @@ To find a special integer `x` such that there are exactly `x` numbers in the arr
 
 ## Complexity
 - **Time complexity**: 
-  - The time complexity of the binary search approach is \(O(\log n)\). 
+  - The time complexity of the binary search approach is (O(log n)). 
   - Within each iteration of the binary search, the `cnt` function is called, which has a linear time complexity \(O(n)\).
-  - Therefore, the overall time complexity is \(O(n \log n)\).
+  - Therefore, the overall time complexity is (O(n log n)).
 
 - **Space complexity**: 
   - The space complexity is \(O(1)\) since we are using a constant amount of extra space for variables.
 
 # Code
 #### Brute force
-```
+``` cpp
 class Solution {
 public:
     int specialArray(vector<int>& nums) {
@@ -56,7 +56,7 @@ public:
 
 ```
 #### Binary Search Approach
-```
+``` cpp
 class Solution {
 public:
     int cnt(const vector<int>& nums, int mid) {
