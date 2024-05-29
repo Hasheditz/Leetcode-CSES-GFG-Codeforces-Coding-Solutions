@@ -1,97 +1,77 @@
-# Special Array with Binary Search
+# 1404. Number of Steps to Reduce a Number in Binary Representation to One
 
-## Intuition
-To find a special integer `x` such that there are exactly `x` numbers in the array that are greater than or equal to `x`, we can leverage binary search. The key observation is that if an array has `x` elements greater than or equal to `x`, and if we sort the array, there exists a position where this condition can be evaluated. This allows us to use binary search to efficiently narrow down the potential values of `x`.
+**Difficulty**: ![Medium](https://img.shields.io/badge/Medium-yellow)  
+**Related Topics**: ![String](https://img.shields.io/badge/String-blue) ![Bit Manipulation](https://img.shields.io/badge/Bit%20Manipulation-blue)  
+**Date**: May 29, 2024
 
-## Approach
-1. **Binary Search Initialization**:
-   - Initialize `low` to 0 and `high` to the size of the array `n`. The search range is from 0 to `n` because the number of elements greater than or equal to any value `x` can be between 0 and `n`.
-   
-2. **Counting Function**:
-   - Implement a helper function `cnt` that takes the array and a middle value `mid`. This function counts how many elements in the array are greater than or equal to `mid`.
+[Link to the question](https://leetcode.com/problems/number-of-steps-to-reduce-a-number-in-binary-representation-to-one/description/)
 
-3. **Binary Search Logic**:
-   - Perform binary search while `low` is less than or equal to `high`.
-   - Calculate the middle value `mid` as the average of `low` and `high`.
-   - Use the `cnt` function to count how many elements are greater than or equal to `mid`.
-   - If the count equals `mid`, then `mid` is the special value, and return it.
-   - If the count is greater than `mid`, it means we need to look for a larger value, so adjust `low` to `mid + 1`.
-   - If the count is less than `mid`, it means we need to look for a smaller value, so adjust `high` to `mid - 1`.
+## Editorial
 
-4. **Return Result**:
-   - If the loop completes without finding a special value, return -1 indicating no such value exists.
+This problem requires us to find the number of steps to reduce a given binary string to "1". The allowed operations are:
+1. If the string ends in '0', remove the last character.
+2. If the string ends in '1', add one to the binary number represented by the string.
 
-## Complexity
-- **Time complexity**: 
-  - The time complexity of the binary search approach is (O(log n)). 
-  - Within each iteration of the binary search, the `cnt` function is called, which has a linear time complexity \(O(n)\).
-  - Therefore, the overall time complexity is (O(n log n)).
+### Solution Explanation
 
-- **Space complexity**: 
-  - The space complexity is \(O(1)\) since we are using a constant amount of extra space for variables.
+To solve this problem, we can use a greedy approach where we continuously perform the allowed operations until the binary string reduces to "1".
 
-# Code
-#### Brute force
-``` cpp
+#### Key Steps:
+1. **Count Ones Function**: A helper function `countOnes` is created to count the number of '1's in the string. This helps in determining if the entire string is composed of '1's.
+2. **Main Logic in `numSteps`**:
+   - Initialize a step counter.
+   - Iterate until the string becomes "1".
+   - If the string ends in '0', remove the last character.
+   - If the string ends in '1':
+     - Check if all characters are '1'. If true, transform the string to a single '1' followed by all '0's and increment the step.
+     - Otherwise, add one to the binary string by flipping '1' to '0' from the end until a '0' is found, which is then flipped to '1'.
+   - Increment the step counter after each operation.
+
+This approach ensures we minimize the number of operations needed to reduce the binary string to "1".
+
+### Code
+
+```cpp
 class Solution {
 public:
-    int specialArray(vector<int>& nums) {
-
-        int n = nums.size();
-
-        for(int i = 1 ; i <= n ; i++)
-        {
-            int cnt = 0;
-            for(int j = 0 ; j < n ; j++)
-            {
-                if(nums[j] >= i) cnt++;
+    int countOnes(const string& s) {
+        int count = 0;
+        for (char ch : s) {
+            if (ch == '1') {
+                count++;
             }
-
-            if(cnt == i) return i;
         }
-
-        return -1;
+        return count;
     }
-};
-
-```
-#### Binary Search Approach
-``` cpp
-class Solution {
-public:
-    int cnt(const vector<int>& nums, int mid) {
-        int cnt = 0;
-        for (int num : nums) {
-            if (num >= mid) cnt++;
-        }
-        return cnt;
-    }
-
-    int specialArray(vector<int>& nums) {
-
-        int n = nums.size();
-
-        int low = 1, high = n;  
-
-        while (low <= high) {
-            
-            int mid = (low + high) / 2;
-            int count = cnt(nums, mid);
-
-            if (count == mid) {
-                return mid;
-            } else if (count > mid) {
-                low = mid + 1;
+	
+    int numSteps(string s) {
+        int steps = 0;
+        while (s != "1") {
+            if (s.back() == '0') {
+                s.pop_back();
             } else {
-                high = mid - 1;
+                if (countOnes(s) == s.size()) {
+                    // All characters are '1'
+                    s = string(s.size(), '0');
+                    s.insert(s.begin(), '1');
+                } else {
+                    // Add one to the binary number
+                    for (int i = s.size() - 1; i >= 0; --i) {
+                        if (s[i] == '1') {
+                            s[i] = '0';
+                        } else {
+                            s[i] = '1';
+                            break;
+                        }
+                    }
+                }
             }
+            steps++;
         }
-        return -1;
+        return steps;
     }
 };
-
 ```
----
 
 ## Like and Upvote
 
