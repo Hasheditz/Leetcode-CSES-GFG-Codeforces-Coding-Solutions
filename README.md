@@ -4,14 +4,15 @@
 **Related Topics**: ![Array](https://img.shields.io/badge/Array-blue) ![Bit Manipulation](https://img.shields.io/badge/Bit%20Manipulation-blue)  
 **Date**: May 31, 2024
 
-<p>
-  <a href="https://github.com/Hasheditz/Leetcode-CSES-GFG-Codeforces-Coding-Solutions?tab=readme-ov-file#260-single-number-iii">
+<p align="left">
+  <a href="https://github.com/Hasheditz/Leetcode-CSES-GFG-Codeforces-Coding-Solutions?tab=readme-ov-file#260-single-number-iii" style="margin-right: 5px;">
     <img src="https://img.shields.io/badge/All%20Problem%20Solutions-green" alt="All Problem Solutions">
   </a>
-  <a href="https://github.com/Hasheditz/Leetcode-CSES-GFG-Codeforces-Coding-Solutions">
+  <a href="https://github.com/Hasheditz/Leetcode-CSES-GFG-Codeforces-Coding-Solutions?tab=readme-ov-file#260-single-number-iii">
     <img src="https://img.shields.io/badge/Link%20To%20The%20Question-blue" alt="Link To The Question">
   </a>
 </p>
+
 
 
 ## Editorial
