@@ -6,7 +6,7 @@
 
 <p>
   <a href="https://github.com/Hasheditz/Leetcode-CSES-GFG-Codeforces-Coding-Solutions?tab=readme-ov-file#260-single-number-iii">
-    <img src="https://img.shields.io/badge/All%20Problem%20Solutions-orange" alt="All Problem Solutions">
+    <img src="https://img.shields.io/badge/All%20Problem%20Solutions-green" alt="All Problem Solutions">
   </a>
   <a href="https://github.com/Hasheditz/Leetcode-CSES-GFG-Codeforces-Coding-Solutions">
     <img src="https://img.shields.io/badge/Link%20To%20The%20Question-blue" alt="Link To The Question">
