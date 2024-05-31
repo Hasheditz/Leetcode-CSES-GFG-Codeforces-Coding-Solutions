@@ -4,7 +4,15 @@
 **Related Topics**: ![Array](https://img.shields.io/badge/Array-blue) ![Bit Manipulation](https://img.shields.io/badge/Bit%20Manipulation-blue)  
 **Date**: May 31, 2024
 
-[Link to the question](https://leetcode.com/problems/single-number-iii/description/)
+<p>
+  <a href="https://github.com/Hasheditz/Leetcode-CSES-GFG-Codeforces-Coding-Solutions?tab=readme-ov-file#260-single-number-iii">
+    <img src="https://img.shields.io/badge/All%20Problem%20Solutions-orange" alt="All Problem Solutions">
+  </a>
+  <a href="https://github.com/Hasheditz/Leetcode-CSES-GFG-Codeforces-Coding-Solutions">
+    <img src="https://img.shields.io/badge/Link%20To%20The%20Question-blue" alt="Link To The Question">
+  </a>
+</p>
+
 
 ## Editorial
 
