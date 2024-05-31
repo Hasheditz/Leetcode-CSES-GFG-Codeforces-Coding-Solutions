@@ -1,80 +1,65 @@
-# 1404. Number of Steps to Reduce a Number in Binary Representation to One
+# 260. Single Number III
 
 **Difficulty**: ![Medium](https://img.shields.io/badge/Medium-yellow)  
-**Related Topics**: ![String](https://img.shields.io/badge/String-blue) ![Bit Manipulation](https://img.shields.io/badge/Bit%20Manipulation-blue)  
-**Date**: May 29, 2024
+**Related Topics**: ![Array](https://img.shields.io/badge/Array-blue) ![Bit Manipulation](https://img.shields.io/badge/Bit%20Manipulation-blue)  
+**Date**: May 31, 2024
 
-[Link to the question](https://leetcode.com/problems/number-of-steps-to-reduce-a-number-in-binary-representation-to-one/description/)
+[Link to the question](https://leetcode.com/problems/single-number-iii/description/)
 
 ## Editorial
 
-This problem requires us to find the number of steps to reduce a given binary string to "1". The allowed operations are:
-1. If the string ends in '0', remove the last character.
-2. If the string ends in '1', add one to the binary number represented by the string.
+This problem requires us to find the two non-repeating numbers in an array where every other number repeats exactly twice. The challenge is to solve this in linear time complexity and with constant space complexity.
 
 ### Solution Explanation
 
-To solve this problem, we can use a greedy approach where we continuously perform the allowed operations until the binary string reduces to "1".
+To solve this problem, we can use bit manipulation efficiently. The key idea is to use the XOR operation to differentiate the two unique numbers.
 
 #### Key Steps:
-1. **Count Ones Function**: A helper function `countOnes` is created to count the number of '1's in the string. This helps in determining if the entire string is composed of '1's.
-2. **Main Logic in `numSteps`**:
-   - Initialize a step counter.
-   - Iterate until the string becomes "1".
-   - If the string ends in '0', remove the last character.
-   - If the string ends in '1':
-     - Check if all characters are '1'. If true, transform the string to a single '1' followed by all '0's and increment the step.
-     - Otherwise, add one to the binary string by flipping '1' to '0' from the end until a '0' is found, which is then flipped to '1'.
-   - Increment the step counter after each operation.
-
-This approach ensures we minimize the number of operations needed to reduce the binary string to "1".
+1. **XOR All Elements**: First, XOR all the numbers in the array. The result will be the XOR of the two unique numbers since all the duplicate numbers will cancel each other out.
+2. **Find Rightmost Set Bit**: Identify the rightmost set bit in the XOR result. This bit will help in dividing the numbers into two different buckets.
+3. **Divide and XOR Again**: Use the identified set bit to divide all the numbers into two groups. XOR each group separately. This will isolate the two unique numbers since they differ at the identified bit position.
 
 ### Code
 
 ```cpp
+#define ll long long
 class Solution {
 public:
-    int countOnes(const string& s) {
-        int count = 0;
-        for (char ch : s) {
-            if (ch == '1') {
-                count++;
-            }
+    vector<int> singleNumber(vector<int>& nums) {
+        int bucket1 = 0, bucket2 = 0;
+        ll right_set_bit = 0;
+
+        // Step 1: XOR all elements to find the combined XOR of the two unique numbers
+        for (auto i : nums) {
+            right_set_bit ^= i;
         }
-        return count;
-    }
-	
-    int numSteps(string s) {
-        int steps = 0;
-        while (s != "1") {
-            if (s.back() == '0') {
-                s.pop_back();
+
+        // Step 2: Find the rightmost set bit in the combined XOR result
+        right_set_bit = (right_set_bit & (right_set_bit - 1)) ^ right_set_bit;
+
+        // Step 3: Divide numbers into two buckets and XOR each bucket
+        for (auto i : nums) {
+            if (i & right_set_bit) {
+                bucket1 ^= i;
             } else {
-                if (countOnes(s) == s.size()) {
-                    // All characters are '1'
-                    s = string(s.size(), '0');
-                    s.insert(s.begin(), '1');
-                } else {
-                    // Add one to the binary number
-                    for (int i = s.size() - 1; i >= 0; --i) {
-                        if (s[i] == '1') {
-                            s[i] = '0';
-                        } else {
-                            s[i] = '1';
-                            break;
-                        }
-                    }
-                }
+                bucket2 ^= i;
             }
-            steps++;
         }
-        return steps;
+
+        // The two buckets now contain the two unique numbers
+        return {bucket1, bucket2};
     }
 };
 ```
+### Explanation of Code
+1. **XOR Calculation:** We iterate through the array and calculate the `XOR` of all numbers `(right_set_bit ^= i)`. This step leaves us with the `XOR` of the two unique numbers.
+2. **Identify Set Bit:** We find the rightmost set bit in the `XOR` result using `(right_set_bit & (right_set_bit - 1)) ^ right_set_bit`. This bit is guaranteed to be different between the two unique numbers.
+3. **Dividing and Isolating:** We then divide the numbers into two groups based on the identified set bit and `XOR` the numbers within each group. This isolates the two unique numbers.
+
+**This approach ensures we find the two unique numbers in linear time and with constant space, meeting the problem's requirements efficiently.**
 
 ## Like and Upvote
 
 If you found this solution helpful, please consider liking 👍 and upvoting ⬆️. Your support helps me to keep providing high-quality solutions.
 
-![Like and Upvote](https://qph.cf2.quoracdn.net/main-qimg-98933841f8b334fc12908bcc17e361bc.webp)
+![Like and Upvote](https://preview.redd.it/petition-to-change-the-upvote-and-downvote-button-to-like-v0-jbrdq402054c1.jpg?width=640&crop=smart&auto=webp&s=8225d21c98a245f44fd6c1f74a4c6c67f0061f25)
