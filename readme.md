@@ -1,71 +1,67 @@
-# 260. Single Number III
+# 3110. Score of a String
 
-**Difficulty**: ![Medium](https://img.shields.io/badge/Medium-yellow)  
-**Related Topics**: ![Array](https://img.shields.io/badge/Array-blue) ![Bit Manipulation](https://img.shields.io/badge/Bit%20Manipulation-blue)  
-**Date**: May 31, 2024
+## **Date**: June 1, 2024
+**Difficulty**: ![Easy](https://img.shields.io/badge/Easy-Green)  
+**Related Topics**: ![String](https://img.shields.io/badge/String-blue)  
 
 <p align="left">
-  <a href="https://github.com/Hasheditz/Leetcode-CSES-GFG-Codeforces-Coding-Solutions?tab=readme-ov-file#260-single-number-iii" style="margin-right: 5px;">
+  <a href="https://github.com/Hasheditz/Leetcode-CSES-GFG-Codeforces-Coding-Solutions?tab=readme-ov-file#score-of-a-string" style="margin-right: 5px;">
     <img src="https://img.shields.io/badge/All%20Problem%20Solutions-green" alt="All Problem Solutions">
   </a>
-  <a href="https://github.com/Hasheditz/Leetcode-CSES-GFG-Codeforces-Coding-Solutions?tab=readme-ov-file#260-single-number-iii">
+  <a href="https://leetcode.com/problems/score-of-a-string/">
     <img src="https://img.shields.io/badge/Link%20To%20The%20Question-blue" alt="Link To The Question">
   </a>
 </p>
 
-
-
 ## Editorial
 
-This problem requires us to find the two non-repeating numbers in an array where every other number repeats exactly twice. The challenge is to solve this in linear time complexity and with constant space complexity.
+This problem requires us to calculate a score based on the absolute differences between adjacent characters in a given string. The challenge is to achieve this in an efficient manner.
 
 ### Solution Explanation
 
-To solve this problem, we can use bit manipulation efficiently. The key idea is to use the XOR operation to differentiate the two unique numbers.
+To solve this problem, we can iterate through the string and calculate the absolute difference between each pair of adjacent characters. Here’s a step-by-step explanation of the approach:
 
 #### Key Steps:
-1. **XOR All Elements**: First, XOR all the numbers in the array. The result will be the XOR of the two unique numbers since all the duplicate numbers will cancel each other out.
-2. **Find Rightmost Set Bit**: Identify the rightmost set bit in the XOR result. This bit will help in dividing the numbers into two different buckets.
-3. **Divide and XOR Again**: Use the identified set bit to divide all the numbers into two groups. XOR each group separately. This will isolate the two unique numbers since they differ at the identified bit position.
+1. **Initialization**: Initialize a variable `res` to 0 to store the cumulative score.
+2. **Iterate Through the String**: Traverse each character in the string except the last one.
+3. **Calculate Absolute Differences**: For each character, compute the absolute difference with the next character and add this difference to `res`.
+4. **Return the Result**: After processing all adjacent pairs, return `res` as the final score.
 
 ### Code
 
 ```cpp
-#define ll long long
 class Solution {
 public:
-    vector<int> singleNumber(vector<int>& nums) {
-        int bucket1 = 0, bucket2 = 0;
-        ll right_set_bit = 0;
+    int scoreOfString(string s) {
+	
+        int res = 0;
+        int n = s.size();
 
-        // Step 1: XOR all elements to find the combined XOR of the two unique numbers
-        for (auto i : nums) {
-            right_set_bit ^= i;
+        for(int i = 0; i < n-1; i++) {
+            res += abs(s[i] - s[i+1]);
         }
 
-        // Step 2: Find the rightmost set bit in the combined XOR result
-        right_set_bit = (right_set_bit & (right_set_bit - 1)) ^ right_set_bit;
-
-        // Step 3: Divide numbers into two buckets and XOR each bucket
-        for (auto i : nums) {
-            if (i & right_set_bit) {
-                bucket1 ^= i;
-            } else {
-                bucket2 ^= i;
-            }
-        }
-
-        // The two buckets now contain the two unique numbers
-        return {bucket1, bucket2};
+        return res;
     }
 };
 ```
 ### Explanation of Code
-1. **XOR Calculation:** We iterate through the array and calculate the `XOR` of all numbers `(right_set_bit ^= i)`. This step leaves us with the `XOR` of the two unique numbers.
-2. **Identify Set Bit:** We find the rightmost set bit in the `XOR` result using `(right_set_bit & (right_set_bit - 1)) ^ right_set_bit`. This bit is guaranteed to be different between the two unique numbers.
-3. **Dividing and Isolating:** We then divide the numbers into two groups based on the identified set bit and `XOR` the numbers within each group. This isolates the two unique numbers.
 
-**This approach ensures we find the two unique numbers in linear time and with constant space, meeting the problem's requirements efficiently.**
+#### Initialization:
+- `res` is initialized to 0, which will hold the final score.
+- `n` is assigned the size of the input string `s`.
+
+#### Iterate Through the String:
+- A `for` loop is used to iterate through the string from the first character to the second-to-last character.
+
+#### Calculate Absolute Differences:
+- For each character in the string, the absolute difference between the current character `s[i]` and the next character `s[i+1]` is calculated using `abs(s[i] - s[i+1])`.
+- This difference is added to `res`.
+
+#### Return the Result:
+- After the loop completes, `res` holds the total score, which is then returned.
+
+This approach ensures an efficient calculation of the score based on the sum of the absolute differences between each pair of adjacent characters in the string.
 
 ## Like and Upvote
 
