@@ -1,6 +1,7 @@
+# **Date**: June 3, 2024
+
 # 2486. Append Characters to String to Make Subsequence
 
-## **Date**: June 3, 2024
 **Difficulty**: ![Medium](https://img.shields.io/badge/Medium-Yellow)  
 **Related Topics**: ![String](https://img.shields.io/badge/String-blue) ![TwoPointer](https://img.shields.io/badge/TwoPointer-blue)
 
