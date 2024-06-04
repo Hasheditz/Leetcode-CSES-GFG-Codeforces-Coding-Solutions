@@ -1,60 +1,91 @@
 # **Date**: June 3, 2024
 
-# 2486. Append Characters to String to Make Subsequence
+# 409. Longest Palindrome
 
-**Difficulty**: ![Medium](https://img.shields.io/badge/Medium-Yellow)  
-**Related Topics**: ![String](https://img.shields.io/badge/String-blue) ![TwoPointer](https://img.shields.io/badge/TwoPointer-blue)
+**Difficulty**: ![Easy](https://img.shields.io/badge/Easy-Green)  
+**Related Topics**: ![String](https://img.shields.io/badge/String-blue) ![Hash Table](https://img.shields.io/badge/Hash%20Table-blue)
 
 <p>
-  <a href="https://github.com/Hasheditz/Leetcode-CSES-GFG-Codeforces-Coding-Solutions?tab=readme-ov-file#append-characters-to-string-to-make-subsequence" style="margin-right: 5px;">
+  <a href="https://github.com/Hasheditz/Leetcode-CSES-GFG-Codeforces-Coding-Solutions?tab=readme-ov-file#longest-palindrome" style="margin-right: 5px;">
     <img src="https://img.shields.io/badge/All%20Problem%20Solutions-green" alt="All Problem Solutions">
   </a>
-  <a href="https://leetcode.com/problems/append-characters-to-string-to-make-subsequence/">
+  <a href="https://leetcode.com/problems/longest-palindrome/">
     <img src="https://img.shields.io/badge/Link%20To%20The%20Question-blue" alt="Link To The Question">
   </a>
 </p>
 
 ## Editorial
 
-This problem requires us to determine the minimum number of characters that need to be appended to the end of a string `s` so that another string `t` becomes a subsequence of `s`.
+This problem requires us to find the length of the longest palindrome that can be built with the given string `s`.
 
 ### Solution Explanation
 
-To solve this problem efficiently, we can use a two-pointer technique. The idea is to iterate through both strings `s` and `t` simultaneously to find the number of characters in `t` that are not in `s`. This will tell us the number of characters we need to append to `s`.
+To solve this problem efficiently, we need to count the frequency of each character in the string. The idea is to use the characters with even frequencies fully and use the odd frequencies such that all characters except one can be paired. This ensures the maximum length of the palindrome.
 
 #### Key Steps:
-1. **Initialize Pointers**: Use two pointers, `temp1` for iterating through `s` and `temp2` for iterating through `t`.
-2. **Iterate through the Strings**:
-   - If the current character in `t` (`t[temp2]`) matches the current character in `s` (`s[temp1]`), increment both pointers.
-   - If they do not match, only increment the pointer for `s` (`temp1`).
-3. **Calculate the Result**: After the loop, the difference between the length of `t` and the pointer `temp2` gives the number of characters that need to be appended.
+1. **Count Character Frequencies**: Use a hash table (or an array for fixed character set) to count the frequency of each character in the string `s`.
+2. **Calculate the Length**:
+   - For each character, if the frequency is even, add it entirely to the palindrome length.
+   - If the frequency is odd, add the largest even number less than or equal to the frequency (i.e., `freq - 1`) to the palindrome length.
+3. **Adjust for Odd Character**: If there is any character with an odd frequency, add 1 to the length to account for the center character of the palindrome.
 
 ### Code
 
 ```cpp
 class Solution {
 public:
-    int appendCharacters(string s, string t) {
-        int n = s.size(), m = t.size();
-        int temp1 = 0, temp2 = 0;
+    int longestPalindrome(string s) {
+        map<char, int> mp;
+        int ans = 0;
 
-        while (temp1 < n && temp2 < m) {
-            if (t[temp2] == s[temp1]) {
-                temp1++;
-                temp2++;
-            } 
-			else {
-                temp1++;
-            }
+        for (auto i : s) {
+            mp[i]++;
         }
 
-        return m - temp2;
+        for (auto i : mp) {
+            if (!(i.second & 1)) ans += i.second;
+            else ans += i.second - 1;
+        }
+
+        if (ans == s.size()) return ans;
+        else return ans + 1;
     }
 };
 ```
-### Complexity Analysis
-- **Time Complexity**: O(n + m), where `n` is the length of `s` and `m` is the length of `t`. This is because we are iterating through both strings once.
-- **Space Complexity**: O(1), as we are using a constant amount of extra space.
+### Approach Without Using The Hashmap
+``` cpp
+class Solution {
+public:
+    int longestPalindrome(string s) {
+
+        sort(s.begin() , s.end());
+
+        int ans = 0;
+        int n = s.size();
+
+        int cnt = 0;
+
+        for(int i = 1 ; i <= n ; i++)
+        {
+
+            if(s[i-1] == s[i]) {cnt++;}
+            
+            else
+            {
+                if(!(cnt&1)) ans += cnt;
+                else ans += cnt+1;
+                cnt = 0;
+            }
+        }
+
+        if(ans == n) return ans;
+        else return ans + 1;
+    }
+};
+```
+## Complexity Analysis
+- **Time Complexity**: O(n), where n is the length of the string s. This is because we are iterating through the string to count the frequencies and then iterating through the hash table.
+- **Space Complexity**: O(1), considering the hash table will contain at most a fixed number of characters (256 in the extended ASCII set).
 
 ## Like and Upvote
 
