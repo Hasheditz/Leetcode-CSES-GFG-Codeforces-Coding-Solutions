@@ -1,91 +1,93 @@
-# **Date**: June 3, 2024
+# **Date**: June 7, 2024
 
-# 409. Longest Palindrome
+# 648. Replace Words
 
-**Difficulty**: ![Easy](https://img.shields.io/badge/Easy-Green)  
-**Related Topics**: ![String](https://img.shields.io/badge/String-blue) ![Hash Table](https://img.shields.io/badge/Hash%20Table-blue)
+**Difficulty**: ![Medium](https://img.shields.io/badge/Medium-yellow)  
+**Related Topics**: ![String](https://img.shields.io/badge/String-blue) ![Trie](https://img.shields.io/badge/Trie-blue)
 
 <p>
-  <a href="https://github.com/Hasheditz/Leetcode-CSES-GFG-Codeforces-Coding-Solutions?tab=readme-ov-file#longest-palindrome" style="margin-right: 5px;">
+  <a href="https://github.com/Hasheditz/Leetcode-CSES-GFG-Codeforces-Coding-Solutions?tab=readme-ov-file#replace-words" style="margin-right: 5px;">
     <img src="https://img.shields.io/badge/All%20Problem%20Solutions-green" alt="All Problem Solutions">
   </a>
-  <a href="https://leetcode.com/problems/longest-palindrome/">
+  <a href="https://leetcode.com/problems/replace-words/">
     <img src="https://img.shields.io/badge/Link%20To%20The%20Question-blue" alt="Link To The Question">
   </a>
 </p>
 
 ## Editorial
 
-This problem requires us to find the length of the longest palindrome that can be built with the given string `s`.
+This problem requires us to replace words in a sentence using a dictionary of root words. The goal is to ensure that each word in the sentence is replaced by the shortest root word from the dictionary that is a prefix of the word.
 
 ### Solution Explanation
 
-To solve this problem efficiently, we need to count the frequency of each character in the string. The idea is to use the characters with even frequencies fully and use the odd frequencies such that all characters except one can be paired. This ensures the maximum length of the palindrome.
+To solve this problem efficiently, we can break down the solution into the following steps:
 
 #### Key Steps:
-1. **Count Character Frequencies**: Use a hash table (or an array for fixed character set) to count the frequency of each character in the string `s`.
-2. **Calculate the Length**:
-   - For each character, if the frequency is even, add it entirely to the palindrome length.
-   - If the frequency is odd, add the largest even number less than or equal to the frequency (i.e., `freq - 1`) to the palindrome length.
-3. **Adjust for Odd Character**: If there is any character with an odd frequency, add 1 to the length to account for the center character of the palindrome.
+1. **Tokenize the Sentence**: Split the given sentence into individual words.
+2. **Replace Words**: For each word, check if any root word in the dictionary is a prefix of the word. Replace the word with the shortest root word that matches.
+3. **Reconstruct the Sentence**: Combine the modified words back into a sentence.
 
 ### Code
 
 ```cpp
 class Solution {
 public:
-    int longestPalindrome(string s) {
-        map<char, int> mp;
-        int ans = 0;
+    string replaceWords(vector<string>& dict, string sent) {
+        // Step 1: Split the sentence into words
+        int n = sent.size();
+        int i = 0;
+        vector<string> token;
+        string temp;
 
-        for (auto i : s) {
-            mp[i]++;
+        while (i < n) {
+            if (sent[i] != ' ') {
+                temp += sent[i];
+                i++;
+            } else {
+                token.push_back(temp);
+                temp = "";
+                i++;
+            }
         }
+        token.push_back(temp);
 
-        for (auto i : mp) {
-            if (!(i.second & 1)) ans += i.second;
-            else ans += i.second - 1;
-        }
-
-        if (ans == s.size()) return ans;
-        else return ans + 1;
-    }
-};
-```
-### Approach Without Using The Hashmap
-``` cpp
-class Solution {
-public:
-    int longestPalindrome(string s) {
-
-        sort(s.begin() , s.end());
-
-        int ans = 0;
-        int n = s.size();
-
-        int cnt = 0;
-
-        for(int i = 1 ; i <= n ; i++)
-        {
-
-            if(s[i-1] == s[i]) {cnt++;}
-            
-            else
-            {
-                if(!(cnt&1)) ans += cnt;
-                else ans += cnt+1;
-                cnt = 0;
+        // Step 2: Replace words using the dictionary
+        for (const auto& root : dict) {
+            int sz = root.size();
+            for (int j = 0; j < token.size(); j++) {
+                string curr = token[j].substr(0, sz);
+                if (curr == root) {
+                    token[j] = root;
+                }
             }
         }
 
-        if(ans == n) return ans;
-        else return ans + 1;
+        // Step 3: Reconstruct the sentence
+        string res;
+        for (const auto& word : token) {
+            res += word + " ";
+        }
+        res.pop_back(); // Remove the trailing space
+
+        return res;
     }
 };
 ```
-## Complexity Analysis
-- **Time Complexity**: O(n), where n is the length of the string s. This is because we are iterating through the string to count the frequencies and then iterating through the hash table.
-- **Space Complexity**: O(1), considering the hash table will contain at most a fixed number of characters (256 in the extended ASCII set).
+## Explanation of Code
+
+### Initialization:
+- We initialize an empty vector `token` to store individual words from the sentence and a temporary string `temp` to build each word.
+
+### Tokenize the Sentence:
+- We iterate through the sentence character by character. When we encounter a space, we add the current word to the vector `token` and reset `temp` for the next word.
+
+### Replace Words:
+- For each root word in the dictionary, we check if it matches the prefix of any word in the vector `token`. If it does, we replace the word with the root word.
+
+### Reconstruct the Sentence:
+- We concatenate the words from the vector `token` into a single string `res`, adding a space between each word. Finally, we remove the trailing space.
+
+This approach ensures an efficient replacement of words based on the given dictionary of root words.
 
 ## Like and Upvote
 
