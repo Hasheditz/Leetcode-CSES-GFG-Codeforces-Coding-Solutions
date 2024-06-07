@@ -36,7 +36,7 @@ public:
         // Step 1: Split the sentence into words
         int n = sent.size();
         int i = 0;
-        vector<string> token;
+        vector<string> v;
         string temp;
 
         while (i < n) {
@@ -44,27 +44,27 @@ public:
                 temp += sent[i];
                 i++;
             } else {
-                token.push_back(temp);
+                v.push_back(temp);
                 temp = "";
                 i++;
             }
         }
-        token.push_back(temp);
+        v.push_back(temp);
 
         // Step 2: Replace words using the dictionary
         for (const auto& root : dict) {
             int sz = root.size();
-            for (int j = 0; j < token.size(); j++) {
-                string curr = token[j].substr(0, sz);
+            for (int j = 0; j < v.size(); j++) {
+                string curr = v[j].substr(0, sz);
                 if (curr == root) {
-                    token[j] = root;
+                    v[j] = root;
                 }
             }
         }
 
         // Step 3: Reconstruct the sentence
         string res;
-        for (const auto& word : token) {
+        for (const auto& word : v) {
             res += word + " ";
         }
         res.pop_back(); // Remove the trailing space
@@ -76,16 +76,16 @@ public:
 ## Explanation of Code
 
 ### Initialization:
-- We initialize an empty vector `token` to store individual words from the sentence and a temporary string `temp` to build each word.
+- We initialize an empty vector `v` to store individual words from the sentence and a temporary string `temp` to build each word.
 
 ### Tokenize the Sentence:
-- We iterate through the sentence character by character. When we encounter a space, we add the current word to the vector `token` and reset `temp` for the next word.
+- We iterate through the sentence character by character. When we encounter a space, we add the current word to the vector `v` and reset `temp` for the next word.
 
 ### Replace Words:
-- For each root word in the dictionary, we check if it matches the prefix of any word in the vector `token`. If it does, we replace the word with the root word.
+- For each root word in the dictionary, we check if it matches the prefix of any word in the vector `v`. If it does, we replace the word with the root word.
 
 ### Reconstruct the Sentence:
-- We concatenate the words from the vector `token` into a single string `res`, adding a space between each word. Finally, we remove the trailing space.
+- We concatenate the words from the vector `v` into a single string `res`, adding a space between each word. Finally, we remove the trailing space.
 
 This approach ensures an efficient replacement of words based on the given dictionary of root words.
 
