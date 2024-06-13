@@ -1,93 +1,65 @@
-# **Date**: June 7, 2024
+# **Date**: June 13, 2024
 
-# 648. Replace Words
+# 2037. Minimum Number of Moves to Seat Everyone
 
-**Difficulty**: ![Medium](https://img.shields.io/badge/Medium-yellow)  
-**Related Topics**: ![String](https://img.shields.io/badge/String-blue) ![Trie](https://img.shields.io/badge/Trie-blue)
+**Difficulty**: ![Easy](https://img.shields.io/badge/Easy-brightgreen)  
+**Related Topics**: ![Greedy](https://img.shields.io/badge/Greedy-blue) ![Sorting](https://img.shields.io/badge/Sorting-blue)
 
 <p>
-  <a href="https://github.com/Hasheditz/Leetcode-CSES-GFG-Codeforces-Coding-Solutions?tab=readme-ov-file#replace-words" style="margin-right: 5px;">
+  <a href="https://github.com/Hasheditz/Leetcode-CSES-GFG-Codeforces-Coding-Solutions?tab=readme-ov-file#minimum-number-of-moves-to-seat-everyone" style="margin-right: 5px;">
     <img src="https://img.shields.io/badge/All%20Problem%20Solutions-green" alt="All Problem Solutions">
   </a>
-  <a href="https://leetcode.com/problems/replace-words/">
+  <a href="https://leetcode.com/problems/minimum-number-of-moves-to-seat-everyone/">
     <img src="https://img.shields.io/badge/Link%20To%20The%20Question-blue" alt="Link To The Question">
   </a>
 </p>
 
 ## Editorial
 
-This problem requires us to replace words in a sentence using a dictionary of root words. The goal is to ensure that each word in the sentence is replaced by the shortest root word from the dictionary that is a prefix of the word.
+This problem requires us to determine the minimum number of moves required to seat each student in an available seat such that the sum of the absolute differences between the positions of the students and the seats they occupy is minimized.
 
 ### Solution Explanation
 
 To solve this problem efficiently, we can break down the solution into the following steps:
 
 #### Key Steps:
-1. **Tokenize the Sentence**: Split the given sentence into individual words.
-2. **Replace Words**: For each word, check if any root word in the dictionary is a prefix of the word. Replace the word with the shortest root word that matches.
-3. **Reconstruct the Sentence**: Combine the modified words back into a sentence.
+1. **Sort the Arrays**: Sort both the `seat` and `student` arrays.
+2. **Calculate Minimum Moves**: Iterate through the sorted arrays and sum the absolute differences between the corresponding elements of the `seat` and `student` arrays.
 
 ### Code
 
 ```cpp
 class Solution {
 public:
-    string replaceWords(vector<string>& dict, string sent) {
-        // Step 1: Split the sentence into words
-        int n = sent.size();
-        int i = 0;
-        vector<string> v;
-        string temp;
+    int minMovesToSeat(vector<int>& seat, vector<int>& student) {
+        // Step 1: Sort the seat and student arrays
+        sort(seat.begin(), seat.end());
+        sort(student.begin(), student.end());
 
-        while (i < n) {
-            if (sent[i] != ' ') {
-                temp += sent[i];
-                i++;
-            } else {
-                v.push_back(temp);
-                temp = "";
-                i++;
-            }
-        }
-        v.push_back(temp);
+        // Step 2: Initialize the answer variable
+        int ans = 0;
 
-        // Step 2: Replace words using the dictionary
-        for (const auto& root : dict) {
-            int sz = root.size();
-            for (int j = 0; j < v.size(); j++) {
-                string curr = v[j].substr(0, sz);
-                if (curr == root) {
-                    v[j] = root;
-                }
-            }
+        // Step 3: Calculate the total minimum moves
+        for(int i = 0; i < seat.size(); i++) {
+            ans += abs(seat[i] - student[i]);
         }
 
-        // Step 3: Reconstruct the sentence
-        string res;
-        for (const auto& word : v) {
-            res += word + " ";
-        }
-        res.pop_back(); // Remove the trailing space
-
-        return res;
+        return ans;
     }
 };
 ```
 ## Explanation of Code
 
 ### Initialization:
-- We initialize an empty vector `v` to store individual words from the sentence and a temporary string `temp` to build each word.
+We initialize the answer variable `ans` to 0 to keep track of the total minimum moves.
 
-### Tokenize the Sentence:
-- We iterate through the sentence character by character. When we encounter a space, we add the current word to the vector `v` and reset `temp` for the next word.
+### Sort the Arrays:
+We sort both the `seat` and `student` arrays to ensure that the closest seats and students are paired.
 
-### Replace Words:
-- For each root word in the dictionary, we check if it matches the prefix of any word in the vector `v`. If it does, we replace the word with the root word.
+### Calculate Minimum Moves:
+We iterate through the sorted arrays and calculate the absolute difference between each pair of seat and student. These differences are accumulated in the `ans` variable to get the total minimum moves required.
 
-### Reconstruct the Sentence:
-- We concatenate the words from the vector `v` into a single string `res`, adding a space between each word. Finally, we remove the trailing space.
-
-This approach ensures an efficient replacement of words based on the given dictionary of root words.
+This approach ensures an efficient and optimal pairing of seats and students to minimize the total moves.
 
 ## Like and Upvote
 
