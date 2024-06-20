@@ -1,6 +1,6 @@
 ### Editorial for the Problem: [Magnetic Force Between Two Balls](https://leetcode.com/problems/magnetic-force-between-two-balls/)
 
-## **Date**: June 19, 2024
+## **Date**: June 20, 2024
 
 **Difficulty**: ![Medium](https://img.shields.io/badge/Medium-yellow)  
 **Related Topics**: ![Array](https://img.shields.io/badge/Array-blue) ![Binary Search](https://img.shields.io/badge/Binary%20Search-blue)
