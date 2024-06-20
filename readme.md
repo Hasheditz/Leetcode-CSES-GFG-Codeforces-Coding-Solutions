@@ -1,4 +1,4 @@
-### Editorial for the Problem: [Minimum Number of Days to Make m Bouquets](https://leetcode.com/problems/minimum-number-of-days-to-make-m-bouquets/)
+### Editorial for the Problem: [Magnetic Force Between Two Balls](https://leetcode.com/problems/magnetic-force-between-two-balls/)
 
 ## **Date**: June 19, 2024
 
@@ -6,92 +6,92 @@
 **Related Topics**: ![Array](https://img.shields.io/badge/Array-blue) ![Binary Search](https://img.shields.io/badge/Binary%20Search-blue)
 
 <p>
-  <a href="https://leetcode.com/problems/minimum-number-of-days-to-make-m-bouquets/">
+  <a href="https://leetcode.com/problems/magnetic-force-between-two-balls/">
     <img src="https://img.shields.io/badge/Link%20To%20The%20Question-blue" alt="Link To The Question">
   </a>
 </p>
 
 ## Editorial
 
-The problem is to determine the minimum number of days required to make \( m \) bouquets from an array of days, where each bouquet consists of \( k \) consecutive flowers. If it's not possible to make \( m \) bouquets, return -1.
+The problem is to determine the maximum possible minimum distance between any two balls when they are placed in different positions from the given array.
 
 ### Approach
 
-This problem can be efficiently solved using a binary search on the number of days. The idea is to find the minimum day such that we can make \( m \) bouquets using the given flowers blooming days.
+This problem can be efficiently solved using a binary search on the possible distances. The idea is to find the maximum minimum distance such that we can place all \( m \) balls with at least this distance between any two of them.
 
 #### Key Steps:
 
 1. **Binary Search Initialization**:
-    - Set `low` to the minimum day in the array.
-    - Set `high` to the maximum day in the array.
+    - Sort the positions array to facilitate the placement of balls in order.
+    - Set `low` to 1, the smallest possible distance.
+    - Set `high` to the difference between the maximum and minimum positions.
 
 2. **Binary Search Loop**:
     - Calculate `mid` as the average of `low` and `high`.
-    - Use a helper function `sets` to count the number of bouquets that can be made if the flowers bloom by day `mid`.
-    - If the number of bouquets is greater than or equal to \( m \), update the result and adjust the search to find a potentially smaller day by setting `high` to `mid - 1`.
-    - If the number of bouquets is less than \( m \), adjust the search to find a larger day by setting `low` to `mid + 1`.
+    - Use a helper function `fix` to count the number of balls that can be placed with at least `mid` distance between them.
+    - If the number of balls placed is greater than or equal to \( m \), adjust the search to find a potentially larger distance by setting `low` to `mid + 1`.
+    - If the number of balls placed is less than \( m \), adjust the search to find a smaller distance by setting `high` to `mid - 1`.
 
-3. **Helper Function `sets`**:
-    - This function counts the number of bouquets that can be made by day `mid`.
-    - It iterates through the array and counts the number of consecutive flowers that bloom by `mid`.
-    - When a non-blooming flower is encountered, it calculates the number of bouquets from the consecutive blooming flowers and resets the counter.
+3. **Helper Function `fix`**:
+    - This function counts the number of balls that can be placed with at least `mid` distance between them.
+    - It iterates through the sorted positions and places balls only if the current position is at least `mid` distance from the last placed ball.
 
 ### Code
 
 ```cpp
 class Solution {
-    int sets(vector<int> &day, int k, int mid) {
-        int curr = 0, n = day.size(), cnt = 0;
-        for (int i = 0; i < n; i++) {
-            if (day[i] <= mid) curr++;
-            else {cnt += curr / k; curr = 0;}
+    int fix(vector<int> &pos, int m, int mid) {
+        int cnt = 1, n = pos.size();
+        int curr = pos[0];
+
+        for (int i = 1; i < n; i++) {
+            if (abs(curr - pos[i]) >= mid) {
+                cnt++;
+                curr = pos[i];
+            }
         }
-        cnt += curr / k;
+
         return cnt;
     }
 
 public:
-    int minDays(vector<int>& day, int m, int k) {
-        int n = day.size();
-        if (n < 1LL * m * k) return -1;
+    int maxDistance(vector<int>& pos, int m) {
+        int n = pos.size();
+        sort(pos.begin(), pos.end());
 
-        int low = *min_element(day.begin(), day.end());
-        int high = *max_element(day.begin(), day.end());
-        int res = INT_MAX;
+        int low = 1, high = pos[n - 1] - pos[0];
 
         while (low <= high) {
             int mid = (low + high) / 2;
-            int curr = sets(day, k, mid);
-
-            if (curr >= m) {
-                res = min(res, mid);
-                high = mid - 1;
-            } else {
+            if (fix(pos, m, mid) >= m) {
                 low = mid + 1;
+            } else {
+                high = mid - 1;
             }
         }
-        return res;
+
+        return high;
     }
 };
 ```
 ### Explanation of Code
 
-**Helper Function `sets`**:
+**Helper Function `fix`**:
 
-- It initializes `curr` to count consecutive blooming flowers and `cnt` to count bouquets.
-- Iterates through the `day` array and increments `curr` if the flower blooms by `mid`.
-- If a flower does not bloom by `mid`, it calculates the number of bouquets from `curr` and resets `curr`.
+- Initializes `cnt` to 1 (since we place the first ball at the first position) and `curr` to the first position.
+- Iterates through the `pos` array, placing a ball only if the current position is at least `mid` distance away from the last placed ball (`curr`).
+- Returns the total number of balls placed.
 
-**Main Function `minDays`**:
+**Main Function `maxDistance`**:
 
-- Checks if the total number of flowers is less than ( m times k ). If true, returns -1.
-- Initializes `low` to the smallest day and `high` to the largest day.
-- Uses binary search to find the minimum day where \( m \) bouquets can be made.
-- Updates the result and adjusts the search range based on the number of bouquets that can be made by the current `mid` day.
+- Sorts the `pos` array to facilitate the placement of balls in order.
+- Initializes `low` to 1 and `high` to the difference between the maximum and minimum positions in `pos`.
+- Uses binary search to find the maximum possible minimum distance where \( m \) balls can be placed.
+- Adjusts the search range based on whether placing balls with the current `mid` distance is feasible.
 
 **Efficiency**:
 
-- The binary search approach ensures a time complexity of O(N log (Max-Min)), making it efficient for large inputs.
+- The binary search approach ensures a time complexity of O(N log D), where N is the number of positions and D is the range of distances between the minimum and maximum positions, making it efficient for large inputs.
 
 ### Like and Upvote
 
